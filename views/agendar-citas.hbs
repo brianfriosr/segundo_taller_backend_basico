@@ -1,0 +1,31 @@
+<header class="p-4 text-center flex-center bg-primary text-white">
+        <h1>CENTRO MÉDICO SALUD Y VIDA</h1>
+    </header>
+
+    <main class="p-4">
+        <h2 class="text-center">AGENDAMIENTO DE CITAS</h2>
+        <form method="post" action="/agregar-cita">
+            <label for="cedula" class="form-label">Número de Cédula <span> *</span></label><br>
+            <input type="number" placeholder="Número de Cédula" id="cedula" name="cedula_paciente" class="form-control" required><br>
+            <label for="fecha_cita" class="form-label">Fecha de Cita Medica <span> *</span></label><br>
+            <input type="date" placeholder="Fecha de cita médica " id="fecha_cita" name="fecha_cita" class="form-control" required><br>
+            <label for="medico" class="form-label">Especialista <span> *</span></label><br>
+            <select name="medico" id="medico" class="form-control"> Especialista
+                <option value="seleccion">------Seleccione una opción-------</option>
+                {{#each resultado}}
+                <option value="{{cedula}}"> {{nombre}} {{apellido}} </option>
+                {{/each}}
+            </select><br>
+            <div class="col-auto text-center d-grid gap-2">
+                <button type="submit" class="btn btn-primary mb-3">Enviar</button>
+            </div>
+        </form>
+        <div class="text-center d-grid gap-2">
+            <a class="btn btn-warning" href="../index.html" role="button">Volver</a>
+        </div>
+    </main>
+    <footer>
+        <div class="d-flex justify-content-center">
+            <p>Made by: brianfriosr</p>
+        </div>
+    </footer>

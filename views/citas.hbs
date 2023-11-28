@@ -1,0 +1,42 @@
+<header class="p-4 text-center flex-center bg-primary text-white">
+        <h1>CENTRO MÉDICO SALUD Y VIDA</h1>
+    </header>
+
+    <main class="p-3">
+        <table class="table table-striped text-center">
+            <h2 class="text-center">LISTADO DE CITAS</h2>
+            <thead>
+                <tr>
+                    <th>Fecha cita</th>
+                    <th>Paciente</th>
+                    <th>Teléfono paciente</th>
+                    <th>Especialidad</th>
+                    <th>Consultorio</th>
+                    <th>Médico</th>
+                </tr>
+            </thead>
+
+            <tbody id="cuerpo-tabla-medicos">
+            <!-- Se agrega el contenido dinamicamente por medio de Handlebars -->
+            {{#each resultado}}
+            <tr>
+                <td>{{formatoFecha fecha_cita}}</td>
+                <td>{{nombre}} {{apellido}}</td>
+                <td>{{telefono}}</td>
+                <td>{{especialidad}}</td>
+                <td>{{consultorio}}</td>
+                <td>{{nombresMedico}} {{apellidosMedico}} </td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </main>
+    
+    <div class="text-center text-center d-grid gap-2 p-3">
+        <a href="../index.html" role="button" class="btn btn-warning">Volver</a>
+    </div>
+    <footer>
+        <div class="d-flex justify-content-center">
+            <p>Made by: brianfriosr</p>
+        </div>
+    </footer>

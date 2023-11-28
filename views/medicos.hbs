@@ -1,0 +1,44 @@
+<header class="p-4 text-center flex-center bg-primary text-white">
+        <h1>CENTRO MÉDICO SALUD Y VIDA</h1>
+    </header>
+
+    <main class="p-3">
+        <table class="table table-striped text-center">
+            <h2 class="text-center">LISTADO DE MÉDICOS</h2>
+            <thead>
+                <tr>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Número de Cédula</th>
+                    <th>Número de consultorio</th>
+                    <th>Telefono</th>
+                    <th>Correo Electrónico</th>
+                    <th>Especialidad</th>
+                </tr>
+            </thead>
+
+            <tbody id="cuerpo-tabla-medicos">
+            <!-- Se agrega el contenido dinamicamente por medio de Handlebars -->
+            {{#each resultado}}
+            <tr>
+                <td>{{nombre}}</td>
+                <td>{{apellido}}</td>
+                <td>{{cedula}}</td>
+                <td>{{consultorio}}</td>
+                <td>{{telefono}}</td>
+                <td>{{correo}}</td>
+                <td>{{especialidad}}</td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </main>
+    
+    <div class="text-center text-center d-grid gap-2 p-3">
+        <a href="../index.html" role="button" class="btn btn-warning">Volver</a>
+    </div>
+    <footer>
+        <div class="d-flex justify-content-center">
+            <p>Made by: brianfriosr</p>
+        </div>
+    </footer>
