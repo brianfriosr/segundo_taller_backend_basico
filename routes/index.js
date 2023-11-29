@@ -18,7 +18,7 @@ router.get("/listado-medicos", (req, res) => {
       res.status(500).send("Error en la ejecución");
     } else {
       console.log(resultado);
-      res.status(200).render("medicos", { resultado });
+      res.status(200).render("medicos", { resultado, opcion:'disabled', estado:true });
     }
   });
 });
@@ -32,7 +32,7 @@ router.get('/listado-pacientes', (req, res) => {
       res.status(500).send("Error en la ejecución");
     } else {
       console.log(resultado);
-      res.status(200).render("pacientes", { resultado });
+      res.status(200).render("pacientes", { resultado, opcion:'disabled', estado:true });
     }
   })
 
@@ -124,5 +124,100 @@ router.post('/agregar-cita', (req,res) => {
       }
     })
 })
+
+//UPDATE: listado pacientes 
+
+//Enrutamiento para editar los campos y poder editar:
+router.get('/activar', (req, res) => {
+  conexion.query('SELECT * FROM pacientes;', (error, resultado) => {
+    if (error){
+      console.log("Ocurrio un error en la ejecución", error);
+      res.status(500).send("Error en la ejecución");
+    } else {
+      console.log(resultado);
+      res.status(200).render("pacientes", { resultado, opcion:'' });
+    }
+  })
+})
+
+//Enrutamiento para actualizar por cc:
+router.post('/actualizar/:cedula', (req, res) => {
+  const cedula = req.params.cedula
+  const nombres = req.body.nombres
+  const apellidos = req.body.apellidos
+  const fecha_nacimiento = req.body.fecha_nacimiento
+  const telefono = req.body.telefono
+
+  conexion.query(`UPDATE pacientes SET cedula = ${cedula}, nombre = '${nombres}', 
+  apellido = '${apellidos}', fecha_nacimiento = '${fecha_nacimiento}', telefono = '${telefono}' WHERE cedula =${cedula};`, (error, resultado) => {
+    if(error){
+      console.log("Ocurrio un error en la ejecución", error)
+      res.status(500).send("Error en la ejecución")
+    } else {
+      res.status(200).redirect("/listado-pacientes")
+    }
+  })
+})
+
+//UPDATE: listado medicos 
+
+//Enrutamiento para editar los campos y poder editar:
+router.get('/activar-medicos', (req, res) => {
+  conexion.query('SELECT * FROM medicos;', (error, resultado) => {
+    if (error){
+      console.log("Ocurrio un error en la ejecución", error);
+      res.status(500).send("Error en la ejecución");
+    } else {
+      console.log(resultado);
+      res.status(200).render("medicos", { resultado, opcion:'' });
+    }
+  })
+})
+
+//Enrutamiento para actualizar por cc:
+router.post('/actualizar-medicos/:cedula', (req, res) => {
+  const cedula = req.params.cedula
+  const nombres = req.body.nombres;
+  const apellidos = req.body.apellidos;
+  const consultorio = req.body.consultorio;
+  const telefono = req.body.telefono;
+  const correo = req.body.correo;
+  const especialidad = req.body.especialidad;
+
+  conexion.query(`UPDATE medicos SET cedula = ${cedula}, nombre = '${nombres}', 
+  apellido = '${apellidos}', especialidad = '${especialidad}', consultorio = '${consultorio}', correo = '${correo}' WHERE cedula =${cedula};`, (error, resultado) => {
+    if(error){
+      console.log("Ocurrio un error en la ejecución", error)
+      res.status(500).send("Error en la ejecución")
+    } else {
+      res.status(200).redirect("/listado-medicos")
+    }
+  })
+})
+
+// DELETE: medicos
+router.get('/eliminar-medicos/:cedula', (req, res) => {
+  const cedula = req.params.cedula;
+
+  // Antes de eliminar al paciente, verifica si hay citas asociadas y elimínalas
+  conexion.query(`DELETE FROM cita_medica WHERE cedula_medico IN (SELECT cedula FROM medicos WHERE cedula = ${cedula});`, (errorCitas, resultadoCitas) => {
+    if (errorCitas) {
+      console.log('Error al eliminar citas', errorCitas);
+      res.status(500).send('Error en la ejecución al eliminar citas');
+    } else {
+      // Luego de eliminar las citas, elimina al medico
+      conexion.query(`DELETE FROM medicos WHERE cedula = ${cedula};`, (errorMedico, resultadoMedico) => {
+        if (errorMedico) {
+          console.log('Error al eliminar medico', errorMedico);
+          res.status(500).send('Error en la ejecución al eliminar medico');
+        } else {
+          res.status(200).redirect("/listado-medicos");
+        }
+      });
+    }
+  });
+});
+
+
 
 module.exports = router;

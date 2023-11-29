@@ -12,17 +12,27 @@
                     <th>Número de Cédula</th>
                     <th>Fecha de Nacimiento</th>
                     <th>Telefono</th>
+                    <th>Mas Opciones</th>
                 </tr>
             </thead>
 
             <tbody id="cuerpo-tabla-pacientes">
                 {{#each resultado}}
                 <tr scope = "row">
-                    <td>{{nombre}}</td>
-                    <td>{{apellido}}</td>
-                    <td>{{cedula}}</td>
-                    <td>{{formatoFecha fecha_nacimiento}}</td>
-                    <td>{{telefono}}</td>
+                    <form action="/actualizar/{{cedula}}" method="post">
+                        <td><input type="text" name="nombres" id="nombre" value="{{nombre}}" {{../opcion}}></td>
+                        <td><input type="text" name="apellidos" id="apellido" value="{{apellido}}" {{../opcion}}></td>
+                        <td><input type="text" name="cedula" id="cedula" value="{{cedula}}" {{../opcion}}></td>
+                        <td><input type="date" name="fecha_nacimiento" id="fecha_nacimiento" value="{{formatoFecha fecha_nacimiento}}" {{../opcion}}></td>
+                        <td><input type="number" name="telefono" id="telefono" value="{{telefono}}" {{../opcion}}></td>
+                        <td>
+                            {{#if ../estado}}
+                                <a href="/activar" role="button" class="btn btn-primary">Modificar</a>
+                                <a href="/eliminar/{{cedula}}" role="button" class="btn btn-danger">Eliminar</a></td>
+                            {{else}}
+                                <input type="submit" value="Enviar"  class="btn btn-success">
+                            {{/if}}
+                    </form>
                 </tr>
                 {{/each}}
             </tbody>
